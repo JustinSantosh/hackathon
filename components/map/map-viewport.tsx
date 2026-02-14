@@ -3,6 +3,7 @@
 import "leaflet/dist/leaflet.css"
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet"
 import type { Feature, Polygon } from "geojson"
+import { useEffect, useState } from "react"
 
 type ViolationData = {
   encroachmentPolygon: Feature<Polygon> | null
@@ -24,6 +25,16 @@ export function MapViewport({
   violationData,
   legacyAlignmentCorrected = false,
 }: MapViewportProps) {
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
+
   // Apply coordinate offset correction for legacy alignment
   const getCorrectedBaseline = (): Feature<Polygon> => {
     if (!legacyAlignmentCorrected) return baseline
@@ -49,12 +60,13 @@ export function MapViewport({
   return (
     <div className="relative w-full h-full">
       <MapContainer
+        key="leaflet-map"
         center={[21.191, 81.679]}
         zoom={17}
-        scrollWheelZoom={true}
+        // scrollWheelZoom={true}
         style={{ width: "100%", height: "100%" }}
         className="w-full h-full"
-        attributionControl={true}
+        // attributionControl={true}
       >
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

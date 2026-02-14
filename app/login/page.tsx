@@ -2,11 +2,10 @@
 
 import { useState } from "react"
 import { LoginScreen } from "@/components/auth/login-screen"
-import { ComplianceDashboard } from "@/components/dashboard/compliance-dashboard"
 import { useRouter } from 'next/navigation'
 
 export default function Page() {
-  const router = useRouter()
+    const router = useRouter()
+    return <LoginScreen onLogin={() => router.push('/dashboard')} />
 
-  return <div>Hello</div>
 }
